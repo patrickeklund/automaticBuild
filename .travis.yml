@@ -1,62 +1,39 @@
 language: java
 stages:
-  - buildCode
-  - createTag
-  - deployToGitHub
+- buildCode
+- createTag
+- deployToGitHub
 jobs:
   include:
-    - stage: buildCode
+  - stage: buildCode
+    script:
+    - echo "Building Code..."
+    - jdk_switcher use oraclejdk8
+    - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - stage: createTag
+    if: branch = master
+    script:
+    - echo "Creating Tag..."
+    - git config --local user.name "Travis CI"
+    - git config --local user.email "builds@travis-ci.com"
+    - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)"
+    - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git
+      > /dev/null 2>&1
+  - stage: deployToGitHub
+    deploy:
+      provider: releases
+      api_key:
+        secure:
+        - redacted
       script:
-        - echo "Building Code..."
-        - jdk_switcher use oraclejdk8
-        - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-    - stage: createTag
-      # require the branch name to be master
-      if: branch = master
-      script:
-## CREATE GIT TAG
-#- git config --global user.email "builds@travis-ci.com"
-#- git config --global user.name "Travis CI"
-#- export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
-#- echo -n $GIT_TAG > public/version
-#- git commit -m "Set build VERSION number" public/version
-#- git tag $GIT_TAG -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER"
-#- git push --quiet https://$GITHUBKEY@github.com/dev-confidence/example-backend-api $GIT_TAG > /dev/null 2>&1
-        - echo "Creating Tag..."
-        - git config --local travis.slug
-#        - git config --local user.name "patrickeklund"
-#        - git config --local user.email "patrickeklund@hotmail.com"
-#        - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)"
-#        - git push --tags
-    - stage: deployToGitHub
-      deploy:
-        provider: releases
-        api_key:
-          secure: [redacted]
-        script:
-          - echo "Deploy To Github..."
-        file:
-          - server/target/*.jar
-          - README.md
-        skip_cleanup: true
-        on:
-          repo: patrickeklund/automaticBuild
-          tags: true
-#  deploy:
-#    provider: releases
-#    api_key: $GITHUB_OAUTH_TOKEN
-#    skip_cleanup: true
-#    on:
-#       tags: true
-
-
-#before_deploy:
-#  # Set up git user name and tag this commit
-#  - git config --local user.name "YOUR GIT USER NAME"
-#  - git config --local user.email "YOUR GIT USER EMAIL"
-#  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-#deploy:
-#  provider: releases
-#  api_key: "GITHUB OAUTH TOKEN"
-#  file: "FILE TO UPLOAD"
-#  skip_cleanup: true
+      - echo "Deploy To Github..."
+      file:
+      - server/target/*.jar
+      - README.md
+      skip_cleanup: true
+      on:
+        repo: patrickeklund/automaticBuild
+        tags: true
+env:
+  global:
+    secure: qub3SakBu0EUQ6JoN/BzNNcydV2nuxQmkFgduPXnnjI3zM1sOPtf/w2qhzT3ygNOo/0S9t+Frij2dHHjFW88T77mO5PZLYRWi3NIilCTFkYfhihljuBW0MYUeYW5A8T78gjgfre8YRBoLGRED/O1nkVbd3TTofI05LA/eaMqCrkbQ+onJtw8cOmm6MpFwGeuQyULUjbwsey6DwzbyapkICAwkVb43/Mlb1nahpH4nt4SGV9Xog7OilOY10hEOgTRTXHgw4IBGlsxb0Oyb57BLvj5QFLuVOIVv50/sLK4BBjZdvBEFizeiBSPzjZPS1EiWwxfk1IZzalIyOavO9Al9qA96bE9kV+HxHL0af6aHP7lK0bEdmQUGeGZboH1uArfr+sForXSSYZxv1IQrkfgIg6VhpA1a8UCaPYLcmZ7SLtY8tt5ApZ53jUdUCFrevQdujTPsqfNPJJe5vuLRk+nfOn8Txqp0YOqisl+D3OOOWVky2+LembIWSHaW8k4yx/E1imrNishMUfrtzFaqf5zOoer+nVxXksxEYnbkXSC0gQ7G9HDWKZDj6/JiWvLANMX0iZRbJh7tQBJDoFCo5jflFDaKERXX3p9ASisQhKrXYIJizRKt6oRgX7q0znkCBUoEniTlGGd39kygNsy3STkfZROTlVGvb1jpIZ7quzOKO4=
