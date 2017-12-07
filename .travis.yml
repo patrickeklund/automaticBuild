@@ -2,6 +2,26 @@ language: java
 script:
   - jdk_switcher use oraclejdk8
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+stage: GitHub Release
+  script: echo "Deploying to GitHub releases ..."
+  deploy:
+     provider: releases
+     api_key:
+         secure: [redacted]
+     file:
+         - server/target/*.jar
+         - README.md
+     skip_cleanup: true
+     on:
+         repo: patrickeklund/automaticBuild
+         tags: true
+#  deploy:
+#    provider: releases
+#    api_key: $GITHUB_OAUTH_TOKEN
+#    skip_cleanup: true
+#    on:
+#       tags: true
+
 
 #before_deploy:
 #  # Set up git user name and tag this commit
