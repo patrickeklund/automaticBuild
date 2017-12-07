@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: github.com.patrickeklund.automaticbuild.AutomaticBuildApplicationTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.309 s - in github.com.patrickeklund.automaticbuild.AutomaticBuildApplicationTest
