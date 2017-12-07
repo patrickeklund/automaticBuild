@@ -9,7 +9,7 @@ jobs:
     script:
     - echo "Building Code..."
     - jdk_switcher use oraclejdk8
-    - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    - mvn clean install -T4C 
   - stage: createTag
     if: branch = master
     script:
