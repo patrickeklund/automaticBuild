@@ -8,14 +8,15 @@
 	<artifactId>automaticBuild</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>patrickeklund - parent</name>
-	<description>patrickeklund - parent</description>
+	<name>AutomaticBuild - Parent</name>
+	<description>AutomaticBuild - Parent pom</description>
 
 	<properties>
 
 		<!-- ** Project versions ** -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+        <java.home>${env.JAVA_HOME}</java.home>
 
 		<!-- ** Build plugins ** -->
 		<maven.clean.plugin.version>3.0.0</maven.clean.plugin.version>
@@ -34,6 +35,24 @@
 		<git.url>https://github.com/patrickeklund/${project.artifactId}.git</git.url>
 
 	</properties>
+
+    <profiles>
+        <!-- mvn help:system | grep "os\."  -->
+        <!-- mvn enforcer:display-info      -->
+        <!-- mvn help:active-profiles       -->
+        <profile>
+            <id>platform-OSX</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                    <name>Mac OS X</name>
+                </os>
+            </activation>
+            <properties>
+                <java.home>/usr</java.home>
+            </properties>
+        </profile>
+    </profiles>
 
 	<build>
 		<pluginManagement>
@@ -70,6 +89,7 @@
 					<configuration>
 						<source>${java.version}</source>
 						<target>${java.version}</target>
+                        <executable>${java.home}/bin/javac</executable>
 						<showDeprecation>true</showDeprecation>
 						<showWarnings>true</showWarnings>
 						<fork>true</fork>
@@ -97,6 +117,7 @@
 
 	<!-- Modules to build -->
 	<modules>
+        <module>server</module>
 	</modules>
 
 </project>
