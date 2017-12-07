@@ -1,32 +1,38 @@
 language: java
 stages:
-  - name: "Build Code"
-    script:
-      - jdk_switcher use oraclejdk8
-      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-stages:
-  - name: createTag
-    # require the branch name to be master
-    if: branch = master
-    script:
-      - echo "Creating Tag..."
-      - git config --local user.name "patrickeklund"
-      - git config --local user.email "patrickeklund@hotmail.com"
-      - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)"
-      - git push --tags
-stages:
-  - name: Deploy To Github
-    deploy:
-      provider: releases
-      api_key:
-        secure: [redacted]
-      file:
-        - server/target/*.jar
-        - README.md
-      skip_cleanup: true
-      on:
-        repo: patrickeklund/automaticBuild
-        tags: true
+  - "Build Code"
+  - "Create Tag"
+  - "Deploy To Github"
+jobs:
+  include:
+    - stage:
+      - name: "Build Code"
+        script:
+          - jdk_switcher use oraclejdk8
+          - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    - stage:
+      - name: "Create Tag"
+        # require the branch name to be master
+        if: branch = master
+        script:
+          - echo "Creating Tag..."
+          - git config --local user.name "patrickeklund"
+          - git config --local user.email "patrickeklund@hotmail.com"
+          - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)"
+          - git push --tags
+    - stage:
+      - name: "Deploy To Github"
+        deploy:
+          provider: releases
+          api_key:
+            secure: [redacted]
+          file:
+            - server/target/*.jar
+            - README.md
+          skip_cleanup: true
+          on:
+            repo: patrickeklund/automaticBuild
+            tags: true
 #  deploy:
 #    provider: releases
 #    api_key: $GITHUB_OAUTH_TOKEN
