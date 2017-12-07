@@ -14,16 +14,15 @@ jobs:
     if: branch = master
     script:
     - echo "Creating Tag..."
-    - git config --local user.name "Travis CI"
-    - git config --local user.email "builds@travis-ci.com"
-    - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)"
-    - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git > /dev/null 2>&1
+    - git config --local user.name ${BUILD_USER}
+    - git config --local user.email ${BUILD_USER_EMAIL}
+    - git tag "build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER"
+    - git push --tags --quiet ${GITHUB_REPO} > /dev/null 2>&1
   - stage: deployToGitHub
     deploy:
       provider: releases
       api_key:
-        secure:
-        - redacted
+        secure: ${GITHUB_PERSONAL_ACCESS_TOKEN}
       script:
       - echo "Deploy To Github..."
       file:
@@ -35,4 +34,7 @@ jobs:
         tags: true
 env:
   global:
+    - BUILD_USER="Travis CI"
+    - BUILD_USER_EMAIL="builds@travis-ci.com"
+    - GITHUB_REPO="https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git"
     secure: qub3SakBu0EUQ6JoN/BzNNcydV2nuxQmkFgduPXnnjI3zM1sOPtf/w2qhzT3ygNOo/0S9t+Frij2dHHjFW88T77mO5PZLYRWi3NIilCTFkYfhihljuBW0MYUeYW5A8T78gjgfre8YRBoLGRED/O1nkVbd3TTofI05LA/eaMqCrkbQ+onJtw8cOmm6MpFwGeuQyULUjbwsey6DwzbyapkICAwkVb43/Mlb1nahpH4nt4SGV9Xog7OilOY10hEOgTRTXHgw4IBGlsxb0Oyb57BLvj5QFLuVOIVv50/sLK4BBjZdvBEFizeiBSPzjZPS1EiWwxfk1IZzalIyOavO9Al9qA96bE9kV+HxHL0af6aHP7lK0bEdmQUGeGZboH1uArfr+sForXSSYZxv1IQrkfgIg6VhpA1a8UCaPYLcmZ7SLtY8tt5ApZ53jUdUCFrevQdujTPsqfNPJJe5vuLRk+nfOn8Txqp0YOqisl+D3OOOWVky2+LembIWSHaW8k4yx/E1imrNishMUfrtzFaqf5zOoer+nVxXksxEYnbkXSC0gQ7G9HDWKZDj6/JiWvLANMX0iZRbJh7tQBJDoFCo5jflFDaKERXX3p9ASisQhKrXYIJizRKt6oRgX7q0znkCBUoEniTlGGd39kygNsy3STkfZROTlVGvb1jpIZ7quzOKO4=
