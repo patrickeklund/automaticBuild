@@ -25,8 +25,9 @@ jobs:
         secure: "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       script:
       - echo "Deploy To Github..."
+      file_glob: true
       file:
-      - server/target/*.jar
+      - server/target/server-*.jar
       - README.md
       skip_cleanup: true
       on:
