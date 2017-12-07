@@ -5,16 +5,16 @@ script:
 stage: GitHub Release
   script: echo "Deploying to GitHub releases ..."
   deploy:
-     provider: releases
-     api_key:
-         secure: [redacted]
-     file:
-         - server/target/*.jar
-         - README.md
-     skip_cleanup: true
-     on:
-         repo: patrickeklund/automaticBuild
-         tags: true
+    provider: releases
+    api_key:
+      secure: [redacted]
+    file:
+      - server/target/*.jar
+      - README.md
+    skip_cleanup: true
+    on:
+      repo: patrickeklund/automaticBuild
+      tags: true
 #  deploy:
 #    provider: releases
 #    api_key: $GITHUB_OAUTH_TOKEN
