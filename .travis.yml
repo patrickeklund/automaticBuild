@@ -1,16 +1,16 @@
 language: java
 stages:
-  - "Build Code"
-  - "Create Tag"
-  - "Deploy To Github"
+  - build
+  - createTag
+  - deployToGitHub
 jobs:
   include:
-    - stage:
+    - stage: build
       - name: "Build Code"
         script:
           - jdk_switcher use oraclejdk8
           - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-    - stage:
+    - stage: createTag
       - name: "Create Tag"
         # require the branch name to be master
         if: branch = master
@@ -20,7 +20,7 @@ jobs:
           - git config --local user.email "patrickeklund@hotmail.com"
           - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)"
           - git push --tags
-    - stage:
+    - stage: deployToGitHub
       - name: "Deploy To Github"
         deploy:
           provider: releases
