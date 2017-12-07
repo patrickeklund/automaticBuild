@@ -17,7 +17,7 @@ jobs:
     - git config --local user.name ${BUILD_USER}
     - git config --local user.email ${BUILD_USER_EMAIL}
     - git tag "build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
-    - git push --tags --quiet ${GITHUB_REPO} > /dev/null 2>&1
+    - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git > /dev/null 2>&1
   - stage: deployToGitHub
     deploy:
       provider: releases
@@ -36,5 +36,4 @@ env:
   global:
   - BUILD_USER="Travis CI"
   - BUILD_USER_EMAIL="builds@travis-ci.com"
-  - GITHUB_REPO="https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git"
   - secure: BlB88SGMw2SyXJG0RqQExnAeVbMt9RPpMD8Tw+AmvPQVylqUTIzkzYzSiEXiOCts6L2l/a2IGJxh9qtDZGZi1nJAOYGoZQRITHBVfDWqAPVL6z+gSiQfWDUBJKZ1pMWnKN2a+8Zm/v2Owc0EmQUE1CXg12YcC34/LbECZNP9sLZOkFAy5tD9XsXno4F1E2x3kySyseKzjvY+t6cCIYIOLVvRZt3tMUI9F6Lb0azb3cxg+4hlTEQB/X47F80XLSk6R2QKK5uGLKwwJmFuvooRGvj8XI0/na5UyrPkwEr/RrYzAF8foDuudc/utEA8ffzJFP1JgGhwdBu7CDV8o+vaJWU7B5Kcnz2+e6mHQOJJv1OUeTtToAL3O0hooOjNtw3pigdXTGNlAhOrSRfBKZnUobSohppOI/WtiCEugQiAKoaWZ7JC1aCHtDPrXIT+ubbPBI7/pN0K8IsTWJ508W2ukdIzhDQ5kJ0uGJCEPuFJso/DlVwmDPjzMf7BOM6iT01oksBk4dJMCahIKEnktle/1Gv0PGK4wLbFkOCREb1HZXvw+LUdEDUSv3P46pCfELdhTELfhaV7FegOE17KXQ35jygzZ8ZbR7omR244umyZn0tUqd5tAquO6Zma0K2VVLyCakYbkjuglJoXdXaf2babWfKMfx2zBPZQDXirnHyBO8E=
