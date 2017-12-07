@@ -9,7 +9,7 @@ jobs:
     script:
     - echo "Building Code..."
     - jdk_switcher use oraclejdk8
-    - mvn clean install -T4C 
+    - mvn clean install -T4C
   - stage: createTag
     if: branch = master
     script:
