@@ -6,12 +6,12 @@ stages:
 jobs:
   include:
     - stage: build
-      - name: "Build Code"
+#      - name: "Build Code"
         script:
           - jdk_switcher use oraclejdk8
           - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
     - stage: createTag
-      - name: "Create Tag"
+#      - name: "Create Tag"
         # require the branch name to be master
         if: branch = master
         script:
@@ -21,7 +21,7 @@ jobs:
           - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)"
           - git push --tags
     - stage: deployToGitHub
-      - name: "Deploy To Github"
+#      - name: "Deploy To Github"
         deploy:
           provider: releases
           api_key:
