@@ -3,7 +3,7 @@ layout: default
 title: Github Pages
 ---
 
-Github Pages 
+Github Pages
 
 ## Updates to site
 Update site name, avatar and other options using the _config.yml file in the root of your repository
