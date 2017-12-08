@@ -2,12 +2,37 @@
 # This file contains configuration flags to customize your site
 #
 
-# Name of your site (displayed in the header)
-name: Patrick Eklund
+# Theme to use
 theme: jekyll-theme-architect
 
+# Name and Title of your site (displayed in the header)
+title: Automatic Build
+name: Patrick Eklund
+
 # Short bio or description (displayed in the header)
-description: DevOps from Sweden
+description: By Patrick Eklund
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://github.com/patrickeklund.png
+
+# Enable downloads
+show_downloads: true
+
+# Includes an icon in the footer for each username you enter
+footer-links:
+  dribbble:
+  email: patrickeklund@hotmail.com
+  facebook:
+  flickr:
+  github: patrickeklund/automaticBuild
+  instagram:
+  linkedin:
+  pinterest:
+  rss: # just type anything here for a working RSS icon
+  twitter:
+  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  youtube: # channel/<your_long_string> or user/<user-name>
+  googleplus: # anything in your profile username that comes after plus.google.com/
+
+# Permanent links available
+permalink: /blog/:year/:month/:day/:title
