@@ -3,6 +3,9 @@ layout: default
 title: Github Pages
 ---
 
+# github pages
+Information about how to set up git pages
+
 ## Updates to site
 Update site name, avatar and other options using the _config.yml file in the root of your repository
 
