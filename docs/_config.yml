@@ -17,3 +17,5 @@ avatar: https://github.com/patrickeklund.png
 
 # Enable downloads
 show_downloads: true
+
+permalink:   /:categories/:posts/:title/
