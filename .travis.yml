@@ -1,38 +1,38 @@
 language: java
 stages:
 - buildCode
-- createTag
-- deployToGitHub
+#- createTag
+#- deployToGitHub
 jobs:
   include:
   - stage: buildCode
     script:
     - echo "Building Code..."
     - jdk_switcher use oraclejdk8
-    - mvn clean install -T4C
-  - stage: createTag
-    if: branch = master
-    script:
-    - echo "Creating Tag..."
-    - git config --local user.name ${BUILD_USER}
-    - git config --local user.email ${BUILD_USER_EMAIL}
-    - git tag "build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
-    - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git > /dev/null 2>&1
-  - stage: deployToGitHub
-    deploy:
-      provider: releases
-      api_key:
-        secure: "${GITHUB_PERSONAL_ACCESS_TOKEN}"
-      script:
-      - echo "Deploy To Github..."
-      file_glob: true
-      file:
-      - server/target/server-*.jar
-      - README.md
-      skip_cleanup: true
-      on:
-        repo: patrickeklund/automaticBuild
-        tags: true
+#    - mvn clean install -T4C
+#  - stage: createTag
+#    if: branch = master
+#    script:
+#    - echo "Creating Tag..."
+#    - git config --local user.name ${BUILD_USER}
+#    - git config --local user.email ${BUILD_USER_EMAIL}
+#    - git tag "build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
+#    - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git > /dev/null 2>&1
+#  - stage: deployToGitHub
+#    deploy:
+#      provider: releases
+#      api_key:
+#        secure: "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+#      script:
+#      - echo "Deploy To Github..."
+#      file_glob: true
+#      file:
+#      - server/target/server-*.jar
+#      - README.md
+#      skip_cleanup: true
+#      on:
+#        repo: patrickeklund/automaticBuild
+#        tags: true
 env:
   global:
   - BUILD_USER="Travis CI"
