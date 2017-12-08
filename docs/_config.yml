@@ -35,4 +35,4 @@ footer-links:
   googleplus: # anything in your profile username that comes after plus.google.com/
 
 # Permanent links available
-permalink: /:title/
+permalink: /about/:title/
