@@ -45,3 +45,6 @@ footer-links:
 
 # Permanent links available
 permalink: /about/:title/
+
+plugins:
+  - jekyll-paginate
