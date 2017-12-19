@@ -20,3 +20,10 @@ Gemfile
 Gemfile.lock
 node_modules
 package.json
+
+#### Gradle
+build/
+.gradle/
+gradle/
+gradlew
+gradlew.bat

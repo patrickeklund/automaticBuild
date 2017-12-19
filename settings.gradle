@@ -1,0 +1,4 @@
+rootProject.name = 'automaticBuild'
+include ':server'
+
+project(':server').projectDir = "$rootDir/server" as File

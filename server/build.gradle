@@ -1,0 +1,27 @@
+group = projectGroup + '.' + projectName
+description = projectDescription
+dependencies {
+
+    // tag::springBoot[]
+    compile   group:    'org.springframework.boot',
+              name:     'spring-boot-starter-web',
+              version:  springVersion
+    // end::springBoot[]
+
+    // tag::actuator[]
+    compile   group:    'org.springframework.boot',
+              name:     'spring-boot-starter-actuator',
+              version:  springVersion
+    compile   group:    'org.springframework.boot',
+              name:     'spring-boot-actuator-docs',
+              version:  springVersion
+    // end::actuator[]
+
+    // tag::test[]
+    testCompile group:    'org.springframework.boot',
+                name:     'spring-boot-starter-test',
+                version:  springVersion
+    testCompile group:    'junit',
+                name:     'junit'
+    // end::test[]
+}
