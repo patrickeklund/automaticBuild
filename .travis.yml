@@ -52,6 +52,7 @@ jobs:
     - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
     - docker push patrickeklund/automaticbuild:latest
   - stage: deployToGitHub
+    if: (branch = master) AND (type != pull_request)
     deploy:
       provider: releases
       api_key:
