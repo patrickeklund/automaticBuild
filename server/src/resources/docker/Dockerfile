@@ -30,14 +30,12 @@ EXPOSE 9999
 #
 # Get server Jar file
 #
-COPY ../../../target/server-*.jar /tmp/server.jar
-
+COPY target/server-*.jar /tmp/server.jar
 
 #
 # Set executable rights server jar
 #
 RUN chmod +x /tmp/server.jar
-    sync
 
 # Set default WORKDIR
 WORKDIR /tmp

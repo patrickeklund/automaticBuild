@@ -37,7 +37,7 @@ EXPOSE 9999
 #
 # Get server Jar file
 #
-COPY ../../../target/server-*.jar /tmp/server.jar
+COPY target/server-*.jar /tmp/server.jar
 
 #
 # Set executable rights server jar
@@ -58,7 +58,7 @@ sudo: required
 services:
   - docker
 script:
-  - docker build --pull --file src/resoures/docker/Dockerfile --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
+  - docker build --pull --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" --file server/src/resources/docker/Dockerfile server
   - docker push patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
 ```
 
