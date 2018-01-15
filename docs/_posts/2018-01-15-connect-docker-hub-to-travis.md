@@ -13,7 +13,7 @@ docker pull patrickeklund/automaticbuild
 ```
 
 ## Create a Dockerfile
-Create a simple Dockerfile that exposes needed ports and adds the compiled jar file and starts it on startup, see below:
+Create a simple Dockerfile put it in server/src/resources/docker/, ensure that it exposes the needed ports, adds the compiled jar file and starts the spring boot application on startup, see below:
 
 ```
 #############################################################################
@@ -59,11 +59,17 @@ services:
   - docker
 script:
   - echo
+  - echo "Building Docker image"
+  - docker build --pull --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date
+    +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" --file server/src/resources/docker/Dockerfile
+    server
+  - echo
   - echo "Creating Docker tag latest"
-  - docker tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER latest
+  - docker tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
+    patrickeklund/automaticbuild:latest
   - echo
   - echo "login to DockerHub..."
-  - docker login --username $DOCKERHUB_USER -password $DOCKERHUB_USER_PASSWORD
+  - docker login --username $DOCKERHUB_USER --password $DOCKERHUB_USER_PASSWORD
   - echo
   - echo "Deploy docker image to DockerHub..."
   - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
