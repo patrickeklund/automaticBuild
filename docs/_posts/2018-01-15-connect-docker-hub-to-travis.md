@@ -1,13 +1,14 @@
 ---
 layout: default
-title: Automatic Build with travis.ci and hub.docker.com
+title: Automatic Build with travis.ci and dockerhub
 ---
 
 ## General
-Create a docker hub account
+Create a docker hub account go to [DockerHub](https://hub.docker.com)
 
 ## Create Docker hub Repository
-Go to https://hub.docker.com/add/repository/ and create a repository **automaticBuild** Visibility **public**. Once created it is accessed at:
+Go to [Create DockerHub Repository](https://hub.docker.com/add/repository/) and create a repository **automaticBuild** Visibility **public**. Once created it is accessed at:
+
 ```
 docker pull patrickeklund/automaticbuild
 ```
