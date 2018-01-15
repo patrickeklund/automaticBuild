@@ -21,7 +21,9 @@ jobs:
       +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER --file server/src/resources/docker/Dockerfile
       server
   - stage: createTag
-    if: branch = master
+    if:
+    - branch = master
+    - NOT type = pull_request
     script:
     - echo
     - echo "Creating Tag..."
