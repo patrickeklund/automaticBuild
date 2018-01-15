@@ -22,7 +22,9 @@ jobs:
     - git config --local user.name ${BUILD_USER}
     - git config --local user.email ${BUILD_USER_EMAIL}
     - git tag "build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
+    - echo "Pushing Tag to GithHub..."
     - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git > /dev/null 2>&1
+    - echo "Deploy docker image to DockerHub..."
     - docker tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" latest
     - docker push patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
     - docker push latest
