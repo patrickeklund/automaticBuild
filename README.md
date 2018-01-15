@@ -1,7 +1,7 @@
 # automaticBuild
 
 Automatic Build with travis.ci
-  - Supports Maven as build tool
+  - Supports Maven as build tool (used)
   - Supports Gradle as build tool
 
 For More information go to
