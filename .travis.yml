@@ -21,6 +21,7 @@ jobs:
     - echo
     - echo "Creating Docker tag latest"
     - docker tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" latest
+    - docker push patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
   - stage: createTag
     if: branch = master
     script:
