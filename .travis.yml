@@ -33,6 +33,7 @@ jobs:
     - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git
       > /dev/null 2>&1
   - stage: deployToGitHub
+    if: (branch = master) AND (type != pull_request)
     deploy:
       provider: releases
       api_key:
