@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Automatic Build with travis.ci and hub.docker.com
+title: Automatic Build with travis.ci and dockerhub
 ---
 
 ## General
