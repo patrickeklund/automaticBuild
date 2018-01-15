@@ -77,7 +77,7 @@ travis encrypt --add
 ```
 Answere yes on all items and then add:
 ```
-DOCKER_HUB_USER=<docker hub user>
+DOCKERHUB_USER=<docker hub user>
 ```
 Password:
 ```
@@ -85,7 +85,7 @@ travis encrypt --add
 ```
 Answere yes on all items and then add:
 ```
-DOCKER_HUB_USER_PASSWORD=<docker hub user password>
+DOCKERHUB_USER_PASSWORD=<docker hub user password>
 ```
 
 Where you’d replace **<docker hub user>** and **<docker hub user password>** with your dockerhub credentials.
