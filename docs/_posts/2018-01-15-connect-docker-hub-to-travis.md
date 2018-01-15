@@ -47,7 +47,7 @@ RUN chmod +x /tmp/server.jar
 # Set default WORKDIR
 WORKDIR /tmp
 
-CMD [ "/bin/bash", "-c", "server.jar" ]
+CMD [ "java", "-jar", "/tmp/server.jar" ]
 ```
 
 
@@ -59,7 +59,9 @@ services:
   - docker
 script:
   - docker build --pull --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" --file server/src/resources/docker/Dockerfile server
+  - docker tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" latest
   - docker push patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
+  - docker push latest
 ```
 
 [back]({{ site.baseurl }}/)

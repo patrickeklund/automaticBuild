@@ -23,6 +23,9 @@ jobs:
     - git config --local user.email ${BUILD_USER_EMAIL}
     - git tag "build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
     - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git > /dev/null 2>&1
+    - docker tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" latest
+    - docker push patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
+    - docker push latest
   - stage: deployToGitHub
     deploy:
       provider: releases
