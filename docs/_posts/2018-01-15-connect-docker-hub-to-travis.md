@@ -63,7 +63,7 @@ script:
   - docker tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER latest
   - echo
   - echo "login to DockerHub..."
-  - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_USER_PASSWORD -e $DOCKER_HUB_USER_EMAIL  
+  - docker login --username $DOCKERHUB_USER -password $DOCKERHUB_USER_PASSWORD
   - echo
   - echo "Deploy docker image to DockerHub..."
   - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
@@ -71,16 +71,24 @@ script:
 ```
 
 ## Update travis.yml with docker your docker login credentials
+UserName:
 ```
 travis encrypt --add
 ```
 Answere yes on all items and then add:
 ```
 DOCKER_HUB_USER=<docker hub user>
-DOCKER_HUB_USER_PASSWORD=<docker hub user password>
-DOCKER_HUB_USER_EMAIL=<docker hub email >
 ```
-Where you’d replace **<docker hub user>**, **<docker hub user password>** and **<docker hub email >** with your dockerhub credentials.
+Password:
+```
+travis encrypt --add
+```
+Answere yes on all items and then add:
+```
+DOCKER_HUB_USER_PASSWORD=<docker hub user password>
+```
+
+Where you’d replace **<docker hub user>** and **<docker hub user password>** with your dockerhub credentials.
 Exit with ctrl+d. <br>
 This command stores the encrypted github token in the env: section inside the **.travis.yml** file exmple below:
 ```yml
