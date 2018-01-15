@@ -1,16 +1,53 @@
-target/
-bin/
-*.versionsBackup
-.project
+# Eclipse
 .classpath
-.settings
-.checkstyle
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Netbeans
+nbactions*.xml
+nb-configuration*.xml
+
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+.localized
+
+# Maven
+log/
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# General files
+*~
 *.log
 *.swp
-*/.idea/*
-*.iml
-*/.idea/
-.idea/
+*.orig
+.vagrant
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Compiled class file
+*.class
+
+# Node And GithubPages
 _site
 .jekyll
 .jekyll-metadata
@@ -20,3 +57,19 @@ Gemfile
 Gemfile.lock
 node_modules
 package.json
+
+#### Gradle
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
