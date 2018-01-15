@@ -14,7 +14,7 @@ jobs:
     - echo "Building Code..."
     - jdk_switcher use oraclejdk8
     - mvn clean install -T4C
-    - docker build --pull --file src/resoures/docker/Dockerfile --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" .
+    - docker build --pull --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" --file server/src/resources/docker/Dockerfile .
   - stage: createTag
     if: branch = master
     script:
