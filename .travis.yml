@@ -23,7 +23,7 @@ jobs:
   - stage: createTag
     if:
     - branch = master
-    - NOT type = pull_request
+    - type != pull_request
     script:
     - echo
     - echo "Creating Tag..."
