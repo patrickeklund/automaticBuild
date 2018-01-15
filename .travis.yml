@@ -52,15 +52,15 @@ jobs:
     - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
     - docker push patrickeklund/automaticbuild:latest
   - stage: deployToGitHub
+    before_deploy:
+    - echo
+    - echo "Deploy build artifacts To Github..."
+    - jdk_switcher use oraclejdk8
+    - mvn clean compile -T4C -DskipTests
     deploy:
       provider: releases
       api_key:
         secure: "${GITHUB_PERSONAL_ACCESS_TOKEN}"
-      script:
-      - echo
-      - echo "Deploy build artifacts To Github..."
-      - jdk_switcher use oraclejdk8
-      - mvn clean compile -T4C -DskipTests
       file_glob: true
       file:
       - server/target/server-*.jar
