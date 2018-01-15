@@ -23,8 +23,16 @@ jobs:
   - stage: createTag
     if: (branch = master) AND (type != pull_request)
     script:
+    - echo "Building Code..."
+    - jdk_switcher use oraclejdk8
+    - mvn clean install -T4C
     - echo
-    - echo "Creating Tag..."
+    - echo "Building Docker image"
+    - docker build --pull --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date
+      +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" --file server/src/resources/docker/Dockerfile
+      server
+    - echo
+    - echo "Creating GitHub Tag..."
     - git config --local user.name ${BUILD_USER}
     - git config --local user.email ${BUILD_USER_EMAIL}
     - git tag "build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
@@ -32,32 +40,23 @@ jobs:
     - echo "Pushing Tag to GithHub..."
     - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git
       > /dev/null 2>&1
+    - echo
+    - echo "Creating Docker Tag latest"
+    - docker tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
+      patrickeklund/automaticbuild:latest
+    - echo
+    - echo "Login to DockerHub..."
+    - docker login --username $DOCKERHUB_USER --password $DOCKERHUB_USER_PASSWORD
+    - echo
+    - echo "Deploy Docker image to DockerHub..."
+    - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
+    - docker push patrickeklund/automaticbuild:latest
   - stage: deployToGitHub
-    if: (branch = master) AND (type != pull_request)
     deploy:
       provider: releases
       api_key:
         secure: "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       script:
-      - echo "Building Code..."
-      - jdk_switcher use oraclejdk8
-      - mvn clean install -T4C
-      - echo
-      - echo "Building Docker image"
-      - docker build --pull --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date
-        +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" --file server/src/resources/docker/Dockerfile
-        server
-      - echo
-      - echo "Creating Docker tag latest"
-      - docker tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
-        patrickeklund/automaticbuild:latest
-      - echo
-      - echo "login to DockerHub..."
-      - docker login --username $DOCKERHUB_USER --password $DOCKERHUB_USER_PASSWORD
-      - echo
-      - echo "Deploy docker image to DockerHub..."
-      - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
-      - docker push patrickeklund/automaticbuild:latest
       - echo
       - echo "Deploy build artifacts To Github..."
       file_glob: true
