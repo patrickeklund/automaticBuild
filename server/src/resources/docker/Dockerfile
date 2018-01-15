@@ -40,4 +40,4 @@ RUN chmod +x /tmp/server.jar
 # Set default WORKDIR
 WORKDIR /tmp
 
-CMD [ "/bin/bash", "-c", "/tmp/server.jar" ]
+CMD [ "java", "-jar", "/tmp/server.jar" ]
