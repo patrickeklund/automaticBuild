@@ -67,7 +67,7 @@ script:
   - echo
   - echo "Deploy docker image to DockerHub..."
   - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
-  - docker push latest
+  - docker push patrickeklund/automaticbuild:latest
 ```
 
 ## Update travis.yml with docker your docker login credentials

@@ -30,7 +30,7 @@ jobs:
     - echo
     - echo "Deploy docker image to DockerHub..."
     - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
-    - docker push latest
+    - docker push patrickeklund/automaticbuild:latest
   - stage: createTag
     if: branch = master
     script:
@@ -67,7 +67,7 @@ jobs:
       - echo
       - echo "Deploy docker image to DockerHub..."
       - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
-      - docker push latest
+      - docker push patrickeklund/automaticbuild:latest
       - echo
       - echo "Deploy build artifacts To Github..."
       file_glob: true
