@@ -2,7 +2,7 @@ language: java
 dist: trusty
 sudo: required
 services:
-  - docker
+- docker
 stages:
 - buildCode
 - createTag
@@ -17,12 +17,18 @@ jobs:
     - mvn clean install -T4C
     - echo
     - echo "Building Docker image"
-    - docker build --pull --tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER --file server/src/resources/docker/Dockerfile server
+    - docker build --pull --tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date
+      +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER --file server/src/resources/docker/Dockerfile
+      server
     - echo
     - echo "Creating Docker tag latest"
-    - docker tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER latest
-    - echo "Deploy docker image to DockerHub..."
+    - docker tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
+      latest
     - echo
+    - echo "login to DockerHub..."
+    - docker login --username=${DOCKERHUB_USER} --password=${DOCKERHUB_USER_PASSWORD}
+    - echo
+    - echo "Deploy docker image to DockerHub..."
     - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
     - docker push latest
   - stage: createTag
@@ -35,7 +41,8 @@ jobs:
     - git tag "build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
     - echo
     - echo "Pushing Tag to GithHub..."
-    - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git > /dev/null 2>&1
+    - git push --tags --quiet https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/patrickeklund/automaticBuild.git
+      > /dev/null 2>&1
     - echo
     - echo "Deploy docker image to DockerHub..."
     - docker push patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER"
@@ -51,10 +58,13 @@ jobs:
       - mvn clean install -T4C
       - echo
       - echo "Building Docker image"
-      - docker build --pull --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" --file server/src/resources/docker/Dockerfile server
+      - docker build --pull --tag patrickeklund/automaticbuild:"build-$TRAVIS_BRANCH-$(date
+        +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER" --file server/src/resources/docker/Dockerfile
+        server
       - echo
       - echo "Creating Docker tag latest"
-      - docker tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER latest
+      - docker tag patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
+        latest
       - echo "Deploy docker image to DockerHub..."
       - echo
       - docker push patrickeklund/automaticbuild:build-$TRAVIS_BRANCH-$(date +'%Y-%m-%d')-$TRAVIS_BUILD_NUMBER
@@ -74,3 +84,5 @@ env:
   - BUILD_USER="Travis CI"
   - BUILD_USER_EMAIL="builds@travis-ci.com"
   - secure: BlB88SGMw2SyXJG0RqQExnAeVbMt9RPpMD8Tw+AmvPQVylqUTIzkzYzSiEXiOCts6L2l/a2IGJxh9qtDZGZi1nJAOYGoZQRITHBVfDWqAPVL6z+gSiQfWDUBJKZ1pMWnKN2a+8Zm/v2Owc0EmQUE1CXg12YcC34/LbECZNP9sLZOkFAy5tD9XsXno4F1E2x3kySyseKzjvY+t6cCIYIOLVvRZt3tMUI9F6Lb0azb3cxg+4hlTEQB/X47F80XLSk6R2QKK5uGLKwwJmFuvooRGvj8XI0/na5UyrPkwEr/RrYzAF8foDuudc/utEA8ffzJFP1JgGhwdBu7CDV8o+vaJWU7B5Kcnz2+e6mHQOJJv1OUeTtToAL3O0hooOjNtw3pigdXTGNlAhOrSRfBKZnUobSohppOI/WtiCEugQiAKoaWZ7JC1aCHtDPrXIT+ubbPBI7/pN0K8IsTWJ508W2ukdIzhDQ5kJ0uGJCEPuFJso/DlVwmDPjzMf7BOM6iT01oksBk4dJMCahIKEnktle/1Gv0PGK4wLbFkOCREb1HZXvw+LUdEDUSv3P46pCfELdhTELfhaV7FegOE17KXQ35jygzZ8ZbR7omR244umyZn0tUqd5tAquO6Zma0K2VVLyCakYbkjuglJoXdXaf2babWfKMfx2zBPZQDXirnHyBO8E=
+  - secure: iDaRMi3PX+AAe/xjEspZ92nMpK+3CczNct9dQbv/Wee3oK4aAKQcKHV3pxUa88qWReKD8NvJx/LKYzu1/89bwKKPcaBqiLBFj/tdZjcKbfd/9lSWZ4uy/W7tkOCz+22Btp/7jv4Cp4+9XE69tESs4pUGetKkJQ3WIb7X0J/7jT7yme3wb/meeLON8dYr8KcFGcFlOLdYh5vQf3QGgv8bPIAdFxU1LHUz52ol6Rr2ZVm5OZPNZKBcDk9AzbG/o0/Ufg5qxzktlEG9lDDkKValepKYeL9GArL7ZQWkFu0fkxqlD7QInAo3dQ9izTCEYevfyOF6y6zvkHcQBk+o5yf7UveQOLj4lDxNoXBWuq/E7rkZH7AOcLKzlTjDZnNyeTc4HmAvGd0vy9AfvBYw8Co8ZyvGwpUUn8/qaXiobCQGS0DmjRdUukXwm+A3fy9dGCwte/iZYblFZzv5Sn3682OzEUqQEh6P4K+siPp4w8X/8wMLs8kOG3bVFoljYlgBwBv8K6fIo/8L6h9pOL148q1CcfPxNniHDY/ewjsFdLcPV5soLvec/LPnmJaO+7vIMjx5PZsXSmn4S1jQ7oQZunM593I8dt0aqWM5YJIuz0yCNsHc/e+ruOoeerMSrheHmSMvup0dVonVIGAb4+dasSMjFVbB8wcKkGR3jpajJKBlvX0=
+  - secure: yDnuzWwN6xpWoePefbBICdEri2qttwOHwmPY6/AimAQl0EJWoaWu3FbwKlw+MSbMbfNLksf4+3QNZ9HAIHi90h74Yo3/9F6ZTNHJ1oP2uFVz35GfxDcYSV55T7BE37da8VblgZlUPoMmbVfBJxoxtgVZoM8uqrnCj6pX3D6BUpgVDsWV7hCCd49Hx0eSWBOiBhnMw+Z36zDf2KPCdfF0nImPvJCojC/psqiigYlBGHOhsYS058KT5zAESaY6H9qq0u1OYEkEFud2ZYWzRMHTMda1InN8HmEvr6cGgHUQ5xhdTPFIMgPsHWDuO12baAXgRJDzc0TSM+50Dt2SBfdjVIvXK10fwX0JWsyeyoO7V97qWODXbaHccChTpZhel9Hi6K8Jy+Phv4EUHrC0E0dWGsGdai+bILo3juOof9Q0X9C2lIXxFIP2IeF7b73dJr8BA6MV3Fn9s+zeUAhogkuAjxsxgmXXcCgvFinTUYjRkRhjXOp2vXKQ/ENOrIOq/MtONW7cA7s0HEwG9oW/U5x0Zzb1Cq4ovOHmP9tXsK/fhLAZzMKLtNUwyuFiYE4IgcBppRFDm+N68RLN5rdbIz26fPd2FnOdwQWF/wt3NXhUYUYL5qMocH5mVFpXya/VgQ2T5WtFAjh1uUNN4UdqXwhjfwkcDF6cWouKvSxefIOj5SI=
