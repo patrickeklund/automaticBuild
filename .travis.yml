@@ -59,6 +59,8 @@ jobs:
       script:
       - echo
       - echo "Deploy build artifacts To Github..."
+      - jdk_switcher use oraclejdk8
+      - mvn clean compile -T4C -DskipTests
       file_glob: true
       file:
       - server/target/server-*.jar
